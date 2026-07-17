@@ -1,0 +1,28 @@
+name: Inspect GithUb OIDC repo
+
+on:
+  workflow_dispatch:
+    #workflow_dispatch allows you to manually trigger the workflow from the GitHub Actions tab in your repository.
+
+
+permissions:
+  id-token: write # This permission is required to request an OIDC token.
+  contents: read # This permission is required to read the contents of the repository.
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Request OIDC Token
+      run: |
+        echo "Requesting OIDC token..."
+        TOKEN=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/json" \
+          "https://vstoken.actions.githubusercontent.com/.well-known/openid-configuration" | jq -r '.token_endpoint')
+        echo "OIDC Token: $TOKEN"
+
+        PAYLOAD=$(echo "${TOKEN}" | cut -d '.' -f2) #separate the second part of the JWT token, which contains the claims.
+
+        #Decode the JWT payload
+        echo "$PAYLOAD" | base64 --decode 2>/dev/null | jq . #payload is the second part of the JWT token, which contains the claims.
