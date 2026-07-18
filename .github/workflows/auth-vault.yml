@@ -24,8 +24,8 @@ jobs:
           role: github-deploy #role assigned to the GitHub job in the vault policy
 
           secrets: | #this is the list of secrets to read from vault, the format is: <vault path>#<vault key>=<env variable name>
-            secret/data/github username | USERNAME
-            secret/data/github password | PASSWORD
+            secret/data/github username | USERNAME ;
+            secret/data/github password | PASSWORD ;
 
       - name: Show retrieved secrets
         run: |
