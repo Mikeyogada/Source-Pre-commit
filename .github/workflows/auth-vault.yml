@@ -22,6 +22,7 @@ jobs:
           url: https://mills-now-discovery-devoted.trycloudflare.com
           method: JWT
           role: github-deploy #role assigned to the GitHub job in the vault policy
+          jwtGithubAudience: vault-demo 
 
           secrets: | #this is the list of secrets to read from vault, the format is: <vault path>#<vault key>=<env variable name>
             secret/data/github username | USERNAME ;
