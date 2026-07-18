@@ -17,15 +17,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: read secret from vault
-        uses: hashicorp/vault-action@v2.5.0
+        uses: hashicorp/vault-action@v3
         with:
           url: https://mills-now-discovery-devoted.trycloudflare.com
           method: JWT
           role: github-deploy #role assigned to the GitHub job in the vault policy
 
           secrets: | #this is the list of secrets to read from vault, the format is: <vault path>#<vault key>=<env variable name>
-            secret/data/github username = USERNAME
-            secret/data/github password = PASSWORD
+            secret/data/github username | USERNAME
+            secret/data/github password | PASSWORD
 
       - name: Show retrieved secrets
         run: |
